@@ -1,6 +1,6 @@
 from rest_framework import generics
 from account.models import CustomUser
-from account.serializers import RegisterSerializer
+from .serializers import RegisterSerializer
 
 
 class RegisterView(generics.CreateAPIView):
@@ -8,7 +8,7 @@ class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
 
 from rest_framework.permissions import IsAuthenticated
-from account.serializers import UserSerializer
+from .serializers import UserSerializer
 
 
 class ProfileView(generics.RetrieveAPIView):

@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
-from cart .models import (Wishlist,Cart,CartItem)
+from cart.models import (Wishlist,Cart,CartItem)
 
-from products.serializers import ProductSerializer
+from api.products.serializers import ProductSerializer
 
 
 class WishlistSerializer(serializers.ModelSerializer):

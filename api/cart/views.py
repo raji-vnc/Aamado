@@ -1,13 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
 
 from cart.models import Cart
-from cart.serializers import CartSerializer
+from .serializers import CartSerializer
 from cart.models import Wishlist
-from cart.serializers import WishlistSerializer
+from .serializers import WishlistSerializer
 from orders.models import ShippingAddress
-from orders.serializers import ShippingAddressSerializer
+from api.orders.serializers import ShippingAddressSerializer
 class CartView(APIView):
 
     permission_classes = [IsAuthenticated]
@@ -63,6 +64,7 @@ class WishlistView(generics.ListAPIView):
 
 class ShippingAddressListView(generics.ListCreateAPIView):
 
+    permission_classes=[IsAuthenticated]
     serializer_class = ShippingAddressSerializer
 
     def get_queryset(self):

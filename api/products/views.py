@@ -1,7 +1,7 @@
 
 from rest_framework import generics
 from products.models import Product
-from products.serializers import ProductSerializer
+from .serializers import ProductSerializer
 
 
 class ProductListView(generics.ListAPIView):
@@ -15,7 +15,7 @@ class ProductDetailView(generics.RetrieveAPIView):
 
 
 from products.models import Category
-from products.serializers import CategorySerializer
+from .serializers import CategorySerializer
 
 
 class CategoryListView(generics.ListAPIView):
@@ -23,7 +23,7 @@ class CategoryListView(generics.ListAPIView):
     serializer_class = CategorySerializer
 
 from products.models import Brand
-from products.serializers import BrandSerializer
+from .serializers import BrandSerializer
 
 
 class BrandListView(generics.ListAPIView):
