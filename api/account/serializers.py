@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+# pyrefly: ignore [missing-import]
 from account.models import CustomUser
 
 

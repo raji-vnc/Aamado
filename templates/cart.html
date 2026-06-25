@@ -113,6 +113,7 @@
                                         <th>Name</th>
                                         <th>Price</th>
                                         <th>Quantity</th>
+                                        <th>Remove</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -136,6 +137,9 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        <td class="remove">
+                                            <a href="#" class="remove-item-btn" style="color: #626262; font-size: 20px;"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="cart_product_img">
@@ -157,6 +161,9 @@
                                                 </div>
                                             </div>
                                         </td>
+                                        <td class="remove">
+                                            <a href="#" class="remove-item-btn" style="color: #626262; font-size: 20px;"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td class="cart_product_img">
@@ -177,6 +184,9 @@
                                                     <span class="qty-plus" onclick="var effect = document.getElementById('qty3'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-plus" aria-hidden="true"></i></span>
                                                 </div>
                                             </div>
+                                        </td>
+                                        <td class="remove">
+                                            <a href="#" class="remove-item-btn" style="color: #626262; font-size: 20px;"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -291,6 +301,14 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <!-- Active js -->
     <script src="{% static 'js/active.js' %}"></script>
 
+    <script>
+        $(document).ready(function() {
+            $('.remove-item-btn').on('click', function(e) {
+                e.preventDefault();
+                $(this).closest('tr').remove();
+            });
+        });
+    </script>
 </body>
 
 </html>
