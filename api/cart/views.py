@@ -12,6 +12,7 @@ from .serializers import WishlistSerializer
 # pyrefly: ignore [missing-import]
 from orders.models import ShippingAddress
 from api.orders.serializers import ShippingAddressSerializer
+
 class CartView(APIView):
 
     permission_classes = [IsAuthenticated]
@@ -23,7 +24,6 @@ class CartView(APIView):
         serializer = CartSerializer(cart)
 
         return Response(serializer.data)
-
 
 
 # pyrefly: ignore [missing-import]
@@ -54,6 +54,19 @@ class AddToCartView(APIView):
         return Response(
             {"message": "Added to cart"}
         )
+
+class RemoveFromCartView(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, item_id):
+        try:
+            cart = Cart.objects.get(user=request.user)
+            item = CartItem.objects.get(id=item_id, cart=cart)
+            item.delete()
+            return Response({"message": "Item removed from cart"})
+        except (Cart.DoesNotExist, CartItem.DoesNotExist):
+            return Response({"error": "Item not found in cart"}, status=404)
 
 class WishlistView(generics.ListAPIView):
 

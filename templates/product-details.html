@@ -48,7 +48,7 @@
         <div class="mobile-nav">
             <!-- Navbar Brand -->
             <div class="amado-navbar-brand">
-                <a href="index.html"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+                <a href="{% url 'home' %}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
             </div>
             <!-- Navbar Toggler -->
             <div class="amado-navbar-toggler">
@@ -64,16 +64,16 @@
             </div>
             <!-- Logo -->
             <div class="logo">
-                <a href="index.html"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
+                <a href="{% url 'home' %}"><img src="{% static 'img/core-img/logo.png' %}" alt=""></a>
             </div>
             <!-- Amado Nav -->
             <nav class="amado-nav">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="shop.html">Shop</a></li>
-                    <li class="active"><a href="product-details.html">Product</a></li>
-                    <li><a href="cart.html">Cart</a></li>
-                    <li><a href="checkout.html">Checkout</a></li>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'shop' %}">Shop</a></li>
+                    <li class="active"><a href="{% url 'product-details' %}">Product</a></li>
+                    <li><a href="{% url 'cart' %}">Cart</a></li>
+                    <li><a href="{% url 'checkout' %}">Checkout</a></li>
                 </ul>
             </nav>
             <!-- Button Group -->
@@ -83,7 +83,7 @@
             </div>
             <!-- Cart Menu -->
             <div class="cart-fav-search mb-100">
-                <a href="cart.html" class="cart-nav"><img src="{% static 'img/core-img/cart.png' %}" alt=""> Cart <span>(0)</span></a>
+                <a href="{% url 'cart' %}" class="cart-nav"><img src="{% static 'img/core-img/cart.png' %}" alt=""> Cart <span>(0)</span></a>
                 <a href="#" class="fav-nav"><img src="{% static 'img/core-img/favorites.png' %}" alt=""> Favourite</a>
                 <a href="#" class="search-nav"><img src="{% static 'img/core-img/search.png' %}" alt=""> Search</a>
             </div>
@@ -118,37 +118,11 @@
                     <div class="col-12 col-lg-7">
                         <div class="single_product_thumb">
                             <div id="product_details_slider" class="carousel slide" data-ride="carousel">
-                                <ol class="carousel-indicators">
-                                    <li class="active" data-target="#product_details_slider" data-slide-to="0" style="background-image: url(img/product-img/pro-big-1.jpg);">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="1" style="background-image: url(img/product-img/pro-big-2.jpg);">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="2" style="background-image: url(img/product-img/pro-big-3.jpg);">
-                                    </li>
-                                    <li data-target="#product_details_slider" data-slide-to="3" style="background-image: url(img/product-img/pro-big-4.jpg);">
-                                    </li>
+                                <ol class="carousel-indicators" id="product-slider-indicators">
+                                    <!-- Dynamic indicators will be injected here -->
                                 </ol>
-                                <div class="carousel-inner">
-                                    <div class="carousel-item active">
-                                        <a class="gallery_img" href="{% static 'img/product-img/pro-big-1.jpg' %}">
-                                            <img class="d-block w-100" src="{% static 'img/product-img/pro-big-1.jpg' %}" alt="First slide">
-                                        </a>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <a class="gallery_img" href="{% static 'img/product-img/pro-big-2.jpg' %}">
-                                            <img class="d-block w-100" src="{% static 'img/product-img/pro-big-2.jpg' %}" alt="Second slide">
-                                        </a>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <a class="gallery_img" href="{% static 'img/product-img/pro-big-3.jpg' %}">
-                                            <img class="d-block w-100" src="{% static 'img/product-img/pro-big-3.jpg' %}" alt="Third slide">
-                                        </a>
-                                    </div>
-                                    <div class="carousel-item">
-                                        <a class="gallery_img" href="{% static 'img/product-img/pro-big-4.jpg' %}">
-                                            <img class="d-block w-100" src="{% static 'img/product-img/pro-big-4.jpg' %}" alt="Fourth slide">
-                                        </a>
-                                    </div>
+                                <div class="carousel-inner" id="product-slider-inner">
+                                    <!-- Dynamic images will be injected here -->
                                 </div>
                             </div>
                         </div>
@@ -158,9 +132,9 @@
                             <!-- Product Meta Data -->
                             <div class="product-meta-data">
                                 <div class="line"></div>
-                                <p class="product-price">$180</p>
-                                <a href="product-details.html">
-                                    <h6>White Modern Chair</h6>
+                                <p class="product-price" id="product-price">$0</p>
+                                <a href="#">
+                                    <h6 id="product-name">Loading...</h6>
                                 </a>
                                 <!-- Ratings & Review -->
                                 <div class="ratings-review mb-15 d-flex align-items-center justify-content-between">
@@ -180,11 +154,11 @@
                             </div>
 
                             <div class="short_overview my-5">
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid quae eveniet culpa officia quidem mollitia impedit iste asperiores nisi reprehenderit consequatur, autem, nostrum pariatur enim?</p>
+                                <p id="product-desc">Loading description...</p>
                             </div>
 
                             <!-- Add to Cart Form -->
-                            <form class="cart clearfix" method="post">
+                            <form class="cart clearfix" method="post" id="add-to-cart-form">
                                 <div class="cart-btn d-flex mb-50">
                                     <p>Qty</p>
                                     <div class="quantity">
@@ -193,7 +167,7 @@
                                         <span class="qty-plus" onclick="var effect = document.getElementById('qty'); var qty = effect.value; if( !isNaN( qty )) effect.value++;return false;"><i class="fa fa-caret-up" aria-hidden="true"></i></span>
                                     </div>
                                 </div>
-                                <button type="submit" name="addtocart" value="5" class="btn amado-btn">Add to cart</button>
+                                <button type="submit" name="addtocart" class="btn amado-btn">Add to cart</button>
                             </form>
 
                         </div>
@@ -239,7 +213,7 @@
                     <div class="single_widget_area">
                         <!-- Logo -->
                         <div class="footer-logo mr-50">
-                            <a href="index.html"><img src="{% static 'img/core-img/logo2.png' %}" alt=""></a>
+                            <a href="{% url 'home' %}"><img src="{% static 'img/core-img/logo2.png' %}" alt=""></a>
                         </div>
                         <!-- Copywrite Text -->
                         <p class="copywrite"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -256,20 +230,20 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#footerNavContent" aria-controls="footerNavContent" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
                                 <div class="collapse navbar-collapse" id="footerNavContent">
                                     <ul class="navbar-nav ml-auto">
-                                        <li class="nav-item active">
-                                            <a class="nav-link" href="index.html">Home</a>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'home' %}">Home</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="shop.html">Shop</a>
+                                            <a class="nav-link" href="{% url 'shop' %}">Shop</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="product-details.html">Product</a>
+                                            <a class="nav-link" href="{% url 'product-details' %}">Product</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="cart.html">Cart</a>
+                                            <a class="nav-link" href="{% url 'cart' %}">Cart</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="checkout.html">Checkout</a>
+                                            <a class="nav-link" href="{% url 'checkout' %}">Checkout</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -292,6 +266,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     <script src="{% static 'js/plugins.js' %}"></script>
     <!-- Active js -->
     <script src="{% static 'js/active.js' %}"></script>
+    <script src="{% static 'js/product-details.js' %}"></script>
 
 </body>
 
