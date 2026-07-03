@@ -3,6 +3,8 @@ const BRANDS_API_URL = "/api/products/brands/";
 const CATEGORIES_API_URL = "/api/products/categories/";
 const ADD_CART_API_URL = "/api/cart/cart/add/";
 const token = localStorage.getItem("accessToken");
+let allProducts = [];
+let currentFilters = { minPrice: 0, maxPrice: 1000 };
 
 async function loadShopProducts() {
     try {
@@ -11,7 +13,9 @@ async function loadShopProducts() {
             throw new Error("Failed to fetch products");
         }
         const products = await response.json();
-        renderShopProducts(products);
+        allProducts = Array.isArray(products) ? products : (products.results || []);
+        renderShopProducts(allProducts);
+        setupPriceRange(allProducts);
     } catch (error) {
         console.error("Error loading products:", error);
     }
@@ -70,14 +74,55 @@ function renderShopFilters(brands, categories) {
     }
 }
 
+function setupPriceRange(products) {
+    const minInput = document.getElementById("price-min");
+    const maxInput = document.getElementById("price-max");
+    const label = document.getElementById("price-range-label");
+
+    if (!minInput || !maxInput || !label) return;
+
+    const prices = products.map((product) => Number(product.price || 0));
+    const minPrice = Math.min(...prices, 0);
+    const maxPrice = Math.max(...prices, 1000);
+
+    minInput.max = maxPrice;
+    maxInput.max = maxPrice;
+    maxInput.value = maxPrice;
+    minInput.value = minPrice;
+    currentFilters = { minPrice: minPrice, maxPrice: maxPrice };
+    label.textContent = `$${minPrice} - $${maxPrice}`;
+
+    const updateRange = () => {
+        const min = Number(minInput.value);
+        const max = Number(maxInput.value);
+        currentFilters = { minPrice: min, maxPrice: max };
+        label.textContent = `$${min} - $${max}`;
+        renderShopProducts(filterProductsByPrice(allProducts));
+    };
+
+    minInput.oninput = updateRange;
+    maxInput.oninput = updateRange;
+}
+
+function filterProductsByPrice(products) {
+    return products.filter((product) => {
+        const price = Number(product.price || 0);
+        return price >= currentFilters.minPrice && price <= currentFilters.maxPrice;
+    });
+}
+
 function renderShopProducts(products) {
     const container = document.getElementById("shop-product-container");
     if (!container) return;
 
     let html = "";
     
-    // Support either direct array return or paginated { results: [...] } structure
     const items = Array.isArray(products) ? products : (products.results || []);
+
+    if (items.length === 0) {
+        container.innerHTML = '<div class="col-12"><p class="text-center">No products found for this price range.</p></div>';
+        return;
+    }
 
     items.forEach(product => {
         let mainImage = "/static/img/bg-img/pro-big-1.jpg";
